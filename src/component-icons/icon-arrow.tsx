@@ -5,15 +5,15 @@ export const IconArrow = (props: SVGProps<SVGSVGElement>) => {
     <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="220 100 -1 0"
-      width=""
-      height=""
+      viewBox=" 20 0 -50 750"
+      width="500"
+      height="102"
     >
       <path
         fill="none"
-        stroke="#FFF"
+        stroke="#fff"
         stroke-width="2.5"
-        d="M4 3l9.836 11.836L1 24.712"
+        d="M3 3l9.836 11.836L1 23.712"
       />
     </svg>
   );
