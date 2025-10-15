@@ -1,14 +1,8 @@
 import { IconArrow } from "./component-icons/icon-arrow";
 import { useForm } from "react-hook-form";
-import "./assets/icon-error.svg";
+import iconerror from "./assets/IconError.svg";
 import "./index.css";
-import type { SubmitHandler } from "react-hook-form";
-type Inputs = {
-  EmailAddress: string;
-  emailError: string;
-};
 
-// we use the library react-hook-form
 function App() {
   const {
     register,
@@ -17,28 +11,33 @@ function App() {
   } = useForm({
     defaultValues: {
       EmailAddress: "",
-      emailError: "janeappleseed#email.com",
     },
   });
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log("", data);
-    alert("Thanks for subscribing!");
-  };
+  console.log(errors);
 
   return (
-    <div className="flex flex-row justify-center justify-items-center font-sans">
+    <div className="flex flex-col md:flex-row min-h-screen font-sans  items-center md:cols-2">
+      {/* ✅ Hero image on top for mobile */}
+      {/* Mobile image */}
+      <div className="md:hidden max-w-1/1 h-auto">
+        <img
+          src="/images/hero-mobile.jpg"
+          alt="Hero mobile"
+          className="w-full h-auto object-cover mt-4"
+        />
+      </div>
       {/* Left Content */}
-      <div className=" justify-items-center -mr-5 p-2.5 ">
+      <div className=" justify-items-center -mr-5 p-2.5 -py-10 md:px-15 md:w-2/3 bg-White-500">
         {/* Logo */}
         <img
           src="/images/logo.svg"
           alt=" Base apperal"
-          className="mb-5 w-40 m-9 mr-120 ml-70"
+          className="mb-5 w-40 m-9 mr-120 ml-70 md:ml-20 md:mr-80 h-auto object-cover"
         />
         <img
           src="/images/bg-pattern-desktop.svg"
           alt="Logo de la portada"
-          className="w-full  h-156"
+          className="flex justify-self-center-safe w-300 h-150 -z-10 md:flex-col-reverse md:flex-wrap-reverse"
         />
         <div className="flex justify-center flex-col relative ">
           <h1 className="absolute -top-130 uppercase text-Pink-400 text-tiny  font-josefin ml-10">
@@ -61,14 +60,19 @@ function App() {
         </div>
         <div>
           {/* Acción al enviar el formulario */}
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form
+            onSubmit={handleSubmit((data) => {
+              console.log(data);
+              alert("Thanks for subscribing!");
+            })}
+          >
             {/* Input y Botton de Error*/}
             <input
               {...register("EmailAddress", {
-                required: "This is required",
+                required: "Please provide a valid email",
                 minLength: {
-                  value: 5,
-                  message: "Min length is 5",
+                  value: 6,
+                  message: "Min length is 6 characters",
                 },
                 pattern: /^\S+@\S+$/i,
               })}
@@ -76,27 +80,34 @@ function App() {
               id="EmailAddress"
               name="EmailAddress"
               className="flex font-josefin text-xl no-italic text-Gray-900 focus:border-Linear-139 placeholder:text-Linear-137
-             focus:outline-Linear-139 border-Linear-137 rounded-full w-97 h-13 -mt-32 hover:caret-Pink-400 border-2 relative justify-center px-12 right-5"
+             focus:outline-Linear-139 border-Linear-137 rounded-full w-100 h-13 -mt-37 hover:caret-Pink-400 border-2 relative justify-center px-15 "
               minLength={5}
               maxLength={50}
               type="text"
-              onError={() => (
-                <img
-                  src="./assets/icon-error.svg"
-                  alt="Error Icon"
-                  className="w-4 h-4 absolute right-28 top-5"
-                />
-              )}
             />
-            <p> {errors.EmailAddress?.message} </p>
-            <button
-              type="submit"
-              aria-label="Subscribe"
-              className="bg-gradient-to-r from-Linear-137 to-Linear-139 m-2 text-white -mt-0 font-bold sm:w-23 w-screen h-13 
-            rounded-full hover:bg-Pink-400 transition duration-400 cursor-pointer relative left-67 -top-13 bg-Red-500/50 shadow-lg drop-shadow-Linear-137"
-            >
-              <IconArrow className=" absolute left-9  top-3.5" />
-            </button>
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                aria-label="Submit email"
+                className="bg-gradient-to-r  to-Linear-138 w-24 relative -top-13 -ml-24
+                 h-13 rounded-full hover:bg-amber-50 transition duration-400 cursor-pointer hover:shadow-Red-500/70 bg-Red-500/50 shadow-lg drop-shadow-Linear-139"
+              >
+                <IconArrow className="ml-10 mt-3" />
+              </button>
+            </div>
+            {errors.EmailAddress && (
+              <div className="flex flex-row-reverse">
+                <img
+                  src={iconerror}
+                  alt="error"
+                  className="relative right-30 -top-22"
+                />
+                <p className="font-Toñin text-red-500 text-md  -mt-9 mr-15">
+                  {errors.EmailAddress?.message}
+                </p>
+              </div>
+            )}
+            {/* Mensaje de error */}
           </form>
         </div>
       </div>
@@ -105,11 +116,11 @@ function App() {
         <img
           src="images/hero-desktop.jpg"
           alt="Chica imagen"
-          className="w-full h-180 "
+          className="w-full h-180 md:block hidden object-cover md:w-178"
         />
       </div>
     </div>
+    /*</div>*/
   );
 }
-
 export default App;
