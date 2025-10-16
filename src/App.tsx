@@ -1,200 +1,125 @@
-import { IconArrow } from "./component-icons/icon-arrow";
+ 
+
+ import { IconArrow } from "./component-icons/icon-arrow";
 import { useForm } from "react-hook-form";
-import iconerror from "./assets/IconError.svg";
+import type { SubmitHandler } from "react-hook-form";
 import "./index.css";
+import IconError from "./assets/IconError.svg";
+
+type Inputs = {
+  EmailAddress: string;
+};
 
 function App() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      EmailAddress: "",
-    },
+  } = useForm<Inputs>({
+    defaultValues: { EmailAddress: "" },
   });
-  console.log(errors);
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    alert(`Gracias por suscribirte: ${data.EmailAddress}`);
+  };
 
   return (
-    <div className='flex flex-col md:flex-row min-h-screen font-sans '>
-      {/* ✅ Hero image on top for mobile */}
-      <div className="md:hidden w-full">
+    <div className="flex flex-col md:flex-row min-h-screen font-josefin bg-white ">
+      {/* ✅ Imagen superior en mobile */}
+     
+      {/* Logo */}
+        <img
+          src="/images/logo.svg"
+          alt="Base Apparel"
+          className="w-40 mb-10 mt-10 pl-3.2 sm:hidden ml-25"
+        />
+     <div className="block md:hidden w-full">
         <img
           src="/images/hero-mobile.jpg"
           alt="Hero mobile"
           className="w-full h-auto object-cover"
         />
       </div>
-      {/* Left Content */}
-      <div className="flex flex-col justify-center px-6 -py-10 md:px-15 md:w-1/2 m-0">
-      <img
+
+      {/* ✅ Sección izquierda (contenido) */}
+      <div className="flex flex-col justify-center items-center md:items-start px-8 md:px-20 py-10 md:w-1/2 bg-[url('/images/bg-pattern-desktop.svg')] bg-cover bg-no-repeat">
+        {/* Logo */}
+        <div className="w-full sr-only md:not-sr-only">
+        <img
           src="/images/logo.svg"
           alt="Base Apparel"
-          className="w-32 mb-11 md:mb-10 mt-12"
+          className="w-32 mb-30 -mt-50"
         />
-        <div className="flex flex-row md:flex-col sm:flex-row relative sm:relative  ">
-         {/* logo de la portada */}
-          <img src="/images/bg-pattern-desktop.svg " alt="Logo de la portada"
-          className="w-full h-screen flex rounded-lg items-center justify-start md:col object-cover"/>
-          <h1 className="absolute uppercase text-Pink-400 text-tiny font-josefin  bg-gradient-root 
-           tracking-widest self-center-safe md:flex  font-medium  text-7xl md:text4xl   md:text-tiny top-30 sm:ml-19"> we're </h1>
-          <p className="uppercase  absolute text-Gray-900 top-43 font-medium text-7xl text-tiny leading-[1.3] self-center-safe sm:ml-19">coming <br  />soon </p>
         </div>
-          {/* Description */}
-         <div className="flex justify-center flex-col relative sm:relative sm:-top-5 ">      
-        <p className="text-Pink-400 font-josefin leading-[1.7] absolute justify-center -top-50 sm:self-center-safe ">
-            <strong> Hello fellow shoppers! We're currently building our new <br /> fashion store.
-              Add your email below to stay up-to-date with <br /> announcements and our launch deals. </strong> </p>
-        </div>
+        {/* Títulos */}
+        <h1 className="uppercase text-[#ce9797] tracking-[0.3em] md:text-7xl mt-1 mb-2 text-center md:text-left font-josefin text-5xl 
+         relative -top-2 left-25">
+          we're
+        </h1>
+ 
+        <h2 className="uppercase text-[#413a3a] md:font-Toñin realtive  sm:tracking-[20px] text-5xl md:text-7xl
+         leading-[4.5rem] mb-6 text-center md:text-left font-medium sm:leading-[5.5rem] top-14 ml-25">
+          coming <br /> soon
+        </h2>
 
+        {/* Descripción */}
+        <p className="text-base self-center-safe mb-8 md:text-left text-Pink-400 josefin-sans font-medium 
+        leading-[2.0] text-justify mr-20 mt-20">
+          Hello fellow shoppers! We're currently building our new <br /> fashion store.
+          Add your email below to stay up-to-date with <br /> announcements and our launch deals.   
+        </p>
 
-        <div className="flex flex-col justify-center relative">
-     
-            
-          { /* Acción al enviar el formulario */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Input y Botton de Error*/}
-            <input {...register("EmailAddress", {
-              required: {
-                value: true,
-                message: "El campo es requerido",
-              },
+        {/* Formulario */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="relative w-full max-w-md"
+        >
+          <input
+            {...register("EmailAddress", {
+              required: "El campo es requerido",
               pattern: {
                 value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
-                message: "Plase provide a valid email",
-              }
-            },
-            )}
-               placeholder="EmailAddress" type="EmailAddress" 
-               id="EmailAddress" name="EmailAddress" 
-               className={`flex font-Toñin text-xl no-italic not-visited: text-Gray-900  
-               ${errors.EmailAddress ? "placeholder:text-red-500 focus:outline-red-600 border-red-400 hover:caret-red-700" : 
-              "placeholder:text-Linear-137 focus:outline-Linear-139 border-Linear-137 hover:caret-Pink-400"}  -top-25 right-40 absolute rounded-full w-95 h-13 border-2 px-14`}/>
-
-            {/* button pink and arrow icon-Error */}
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-Linear-137 to-Linear-139 m-2 w-23 h-13 relative left-104 -top-40 rounded-full transition duration-400 cursor-pointer hover:shadow-lg shadow-Red-500 focus:bg-Linear-135">
-           <IconArrow className="mt-3 ml-9"/>
-             </button>
-              {errors.EmailAddress && <div className="flex items-center justify-start flex-row-reverse gap-3">
-              <img src={IconError} alt="error" className="flex relative right-120 -top-53" />
-              <p className="text-red-600 text-2xl position relative -top-35 right-65 font-josefin flex">{errors.EmailAddress.message}</p>
-            </div>}
-          </form>
-        </div>
-      </div>
-       {/* Right Image Section */}
-      <div className="md:w-1/2 w-screen">
-        
-        {/* Desktop image */}
-=======
-    <div className="flex flex-col md:flex-row min-h-screen font-sans  items-center md:cols-2">
-      {/* ✅ Hero image on top for mobile */}
-      {/* Mobile image */}
-      <div className="md:hidden max-w-1/1 h-auto">
-        <img
-          src="/images/hero-mobile.jpg"
-          alt="Hero mobile"
-          className="w-full h-auto object-cover mt-4"
-        />
-      </div>
-      {/* Left Content */}
-      <div className=" justify-items-center -mr-5 p-2.5 -py-10 md:px-15 md:w-2/3 bg-White-500">
-        {/* Logo */}
->>>>>>> 4cd4d48af725d37a6dd8fc54eddef55846fc7537
-        <img
-          src="/images/logo.svg"
-          alt=" Base apperal"
-          className="mb-5 w-40 m-9 mr-120 ml-70 md:ml-20 md:mr-80 h-auto object-cover"
-        />
-        <img
-          src="/images/bg-pattern-desktop.svg"
-          alt="Logo de la portada"
-          className="flex justify-self-center-safe w-300 h-150 -z-10 md:flex-col-reverse md:flex-wrap-reverse"
-        />
-        <div className="flex justify-center flex-col relative ">
-          <h1 className="absolute -top-130 uppercase text-Pink-400 text-tiny  font-josefin ml-10">
-            {" "}
-            we're{" "}
-          </h1>
-          <p className="uppercase ml-12 -mt-169 text-Gray-900 font-josefin  text-7xl text-tiny leading-[1.1]">
-            coming <br />
-            soon{" "}
-          </p>
-          {/* Description */}
-          <p className="text-Pink-400 font-josefin leading-[1.8] ml-12 mt-3">
-            <strong>
-              {" "}
-              Hello fellow shoppers! We're currently building our new <br />{" "}
-              fashion store. Add your email below to stay up-to-date with <br />{" "}
-              announcements and our launch deals.{" "}
-            </strong>{" "}
-          </p>
-        </div>
-        <div>
-          {/* Acción al enviar el formulario */}
-          <form
-            onSubmit={handleSubmit((data) => {
-              console.log(data);
-              alert("Thanks for subscribing!");
+                message: "Please provide a valid email",
+              },
             })}
+            placeholder="Email Address"
+            type="email"
+            className={`w-full border-2 rounded-full px-6 py-3 text-gray-800 focus:outline-none absolute top-20 font-josefin text-2xl ${
+              errors.EmailAddress
+                ? "border-red-400 placeholder:text-red-400"
+                : "border-[#ce9797] placeholder:text-[#ce9797]"
+            }`}
+          />
+
+          {/* Botón con flecha */}
+          <button
+            type="submit"
+            className="w-27 h-15 cursor-pointer absolute right-0 top-20 bottom-0 bg-gradient-to-r from-[#f8bfbf] to-[#ee8c8c] px-6 rounded-full flex items-center
+            hover:bg-blue-900 duration-200 font-Toñin  justify-center hover:opacity-70"
           >
-            {/* Input y Botton de Error*/}
-            <input
-              {...register("EmailAddress", {
-                required: "Please provide a valid email",
-                minLength: {
-                  value: 6,
-                  message: "Min length is 6 characters",
-                },
-                pattern: /^\S+@\S+$/i,
-              })}
-              placeholder="EmailAddress"
-              id="EmailAddress"
-              name="EmailAddress"
-              className="flex font-josefin text-xl no-italic text-Gray-900 focus:border-Linear-139 placeholder:text-Linear-137
-             focus:outline-Linear-139 border-Linear-137 rounded-full w-100 h-13 -mt-37 hover:caret-Pink-400 border-2 relative justify-center px-15 "
-              minLength={5}
-              maxLength={50}
-              type="text"
-            />
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                aria-label="Submit email"
-                className="bg-gradient-to-r  to-Linear-138 w-24 relative -top-13 -ml-24
-                 h-13 rounded-full hover:bg-amber-50 transition duration-400 cursor-pointer hover:shadow-Red-500/70 bg-Red-500/50 shadow-lg drop-shadow-Linear-139"
-              >
-                <IconArrow className="ml-10 mt-3" />
-              </button>
+            <IconArrow className="mt-6 ml-6"/>
+          </button>
+
+          {/* Mensaje de error */}
+          {errors.EmailAddress && (
+            <div className="relative top-35 left-1  text-Red-500 font-josefin  font-extrabold text-2xl flex items-center justify-items-center flex-row-reverse">
+              <img src={IconError} alt="Error" className="w-10 h-10 mr-30 absolute -top-12"/>
+              <p className="p-5 font-Toñin mr-35">{errors.EmailAddress.message}</p>
             </div>
-            {errors.EmailAddress && (
-              <div className="flex flex-row-reverse">
-                <img
-                  src={iconerror}
-                  alt="error"
-                  className="relative right-30 -top-22"
-                />
-                <p className="font-Toñin text-red-500 text-md  -mt-9 mr-15">
-                  {errors.EmailAddress?.message}
-                </p>
-              </div>
-            )}
-            {/* Mensaje de error */}
-          </form>
-        </div>
+          )}
+        </form>
       </div>
-      {/* Right Image */}
-      <div>
+
+      {/* ✅ Imagen lateral en desktop */}
+      <div className="hidden md:block md:w-1/2">
         <img
-          src="images/hero-desktop.jpg"
-          alt="Chica imagen"
-          className="w-full h-180 md:block hidden object-cover md:w-178"
+          src="/images/hero-desktop.jpg"
+          alt="Hero desktop"
+          className="w-full h-full object-cover"
         />
       </div>
     </div>
-    /*</div>*/
   );
 }
+
 export default App;

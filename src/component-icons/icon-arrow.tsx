@@ -6,8 +6,8 @@ export const IconArrow = (props: SVGProps<SVGSVGElement>) => {
       {...props}
       xmlns="http://www.w3.org/2000/svg"
       viewBox=" 20 0 -50 750"
-      width="500"
-      height="102"
+      width=""
+      height=""
     >
       <path
         fill="none"
